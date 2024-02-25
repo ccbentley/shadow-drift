@@ -20,7 +20,10 @@ var coyote_time_active : bool = false
 @onready var coyote_timer = $CoyoteTimer
 @onready var respawn_timer = $RespawnTimer
 
-var tween : Tween 
+var jump_tween : Tween 
+var squash_tween : Tween 
+var death_tween : Tween
+
 
 func _ready():
 	respawn()
@@ -85,25 +88,28 @@ func play_anim(move_input : Vector2):
 
 func jump():
 	is_jumping = true
-	tween = get_tree().create_tween()
-	tween.tween_property(anim, "position", Vector2(0, -35), 0.25).set_trans(Tween.TRANS_QUAD * Tween.EASE_OUT)
-	tween.tween_property(anim, "position", Vector2(0,0), 0.3).set_trans(Tween.TRANS_QUAD * Tween.EASE_IN)
-	tween.connect("finished", on_jump_tween_finished)
-	# Add squash/stretch effect
+	coyote_time_active = false
+	jump_tween = get_tree().create_tween()
+	jump_tween.tween_property(anim, "position", Vector2(0, -35), 0.25).set_trans(Tween.TRANS_QUAD * Tween.EASE_OUT)
+	jump_tween.tween_property(anim, "position", Vector2(0,0), 0.3).set_trans(Tween.TRANS_QUAD * Tween.EASE_IN)
+	jump_tween.connect("finished", on_jump_tween_finished)
+	#Add squash/stretch effect
+	squash_tween = get_tree().create_tween()
 	var squash_scale = Vector2(1.2, 0.8)
 	var stretch_scale = Vector2(0.8, 1.2)
 	anim.scale = squash_scale
-	tween.tween_property(anim, "scale", stretch_scale, 0.05).set_trans(Tween.TRANS_QUAD * Tween.EASE_OUT)
+	squash_tween.tween_property(anim, "scale", stretch_scale, 0.3).set_trans(Tween.TRANS_QUAD * Tween.EASE_OUT)
 	#After the jump, return to original scale
-	tween.tween_property(anim, "scale", Vector2(1, 1), 0.1).set_trans(Tween.TRANS_QUAD * Tween.EASE_IN)
+	squash_tween.tween_property(anim, "scale", Vector2(1, 1), 0.1).set_trans(Tween.TRANS_QUAD * Tween.EASE_IN)
 
 func stop_jump():
 	await get_tree(). create_timer(0.04).timeout
-	tween.stop()
-	tween = get_tree().create_tween()
-	tween.tween_property(anim, "position", Vector2(0,0), 0.2).set_trans(Tween.TRANS_QUAD * Tween.EASE_IN)
-	tween.connect("finished", on_jump_tween_finished)
-	tween.tween_property(anim, "scale", Vector2(1, 1), 0.01).set_trans(Tween.TRANS_QUAD * Tween.EASE_IN)
+	jump_tween.stop()
+	jump_tween = get_tree().create_tween()
+	jump_tween.tween_property(anim, "position", Vector2(0,0), 0.2).set_trans(Tween.TRANS_QUAD * Tween.EASE_IN)
+	jump_tween.connect("finished", on_jump_tween_finished)
+	squash_tween = get_tree().create_tween()
+	squash_tween.tween_property(anim, "scale", Vector2(1, 1), 0.075).set_trans(Tween.TRANS_QUAD * Tween.EASE_IN)
 
 func on_jump_tween_finished():
 	is_jumping = false
@@ -120,16 +126,17 @@ func _on_static_body_2d_player_off_tilemap():
 		coyote_time_active = false
 
 func _on_static_body_2d_player_on_tilemap():
-	coyote_time_active = true
+	if(!is_jumping):
+		coyote_time_active = true
 	player_off_map = false
 
 func player_die():
 	print("player died")
 	disable_movement()
 	follow_cam_enabled = false
-	tween = get_tree().create_tween()
+	death_tween = get_tree().create_tween()
 	z_index = -6
-	tween.tween_property(self, "global_position", Vector2(self.position.x,200), 0.8).set_trans(Tween.TRANS_QUAD * Tween.EASE_IN)
+	death_tween.tween_property(self, "global_position", Vector2(self.position.x,200), 0.8).set_trans(Tween.TRANS_QUAD * Tween.EASE_IN)
 	await get_tree().create_timer(1).timeout
 	respawn()
 	
