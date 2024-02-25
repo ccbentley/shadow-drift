@@ -1,22 +1,29 @@
 extends CharacterBody2D
 
 @export var max_speed : float = 100
-@export var accel = 2000
-@export var friction = 600
-@export var is_facing_right : bool = true
-@export var follow_cam_enabled : bool = true
-var is_jumping : bool = false
-@export var can_move : bool = true
+@export var accel : float = 2000
+@export var friction : float = 600
 
-var input = Vector2.ZERO
+var input : Vector2 = Vector2.ZERO
+
+var is_facing_right : bool = true
+var can_move : bool = true
+var follow_cam_enabled : bool = true
+var is_jumping : bool = false
+var is_alive : bool = true
+var player_off_map : bool = false
+var coyote_time_active : bool = false
 
 @onready var anim = $AnimatedSprite2D
 @onready var camera = $"../Camera2D"
+@onready var coyote_timer = $CoyoteTimer
+
 var tween : Tween 
 
 func _process(delta):
 	if(follow_cam_enabled):
 		camera.global_position = Vector2(anim.global_position)
+	print(coyote_timer.time_left)
 
 func _physics_process(delta):
 	if(can_move):
@@ -28,12 +35,17 @@ func _physics_process(delta):
 		anim.flip_h = false
 	elif(!is_facing_right):
 		anim.flip_h = true
-		
-	if(Input.is_action_just_pressed("jump") && !is_jumping && can_move):
-		jump()
+	
+	if(Input.is_action_just_pressed("jump")):
+		if(can_move && !is_jumping or can_move && player_off_map && coyote_timer.time_left > 0 && !is_jumping):
+			jump()
 
 	if(Input.is_action_just_released("jump") && is_jumping):
 		stop_jump()
+
+	if(player_off_map && is_alive && !is_jumping && coyote_timer.time_left <= 0):
+		is_alive = false
+		player_die()
 
 func player_movement(delta):
 	input.x = (Input.get_action_strength("right")) - (Input.get_action_strength("left"))
@@ -95,12 +107,18 @@ func enable_movement():
 	can_move = true
 
 func _on_static_body_2d_player_off_tilemap():
-	if(!is_jumping):
-		can_move = false
-		follow_cam_enabled = false
-		tween = get_tree().create_tween()
-		z_index = -6
-		tween.tween_property(self, "position", Vector2(self.position.x,200), 0.8).set_trans(Tween.TRANS_QUAD * Tween.EASE_IN)
-	
+	player_off_map = true
+	if(coyote_time_active):
+		coyote_timer.start()
+		coyote_time_active = false
+
 func _on_static_body_2d_player_on_tilemap():
-	pass
+	coyote_time_active = true
+	player_off_map = false
+
+func player_die():
+	disable_movement()
+	follow_cam_enabled = false
+	tween = get_tree().create_tween()
+	z_index = -6
+	tween.tween_property(self, "position", Vector2(self.position.x,200), 0.8).set_trans(Tween.TRANS_QUAD * Tween.EASE_IN)

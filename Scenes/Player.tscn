@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bpyqr2dwikw5q"]
+[gd_scene load_steps=12 format=3 uid="uid://bpyqr2dwikw5q"]
 
 [ext_resource type="Script" path="res://Sripts/player.gd" id="1_prbjj"]
 [ext_resource type="Texture2D" uid="uid://dvi5x285ykovo" path="res://Art/StickyMan/idle/idle1.png" id="2_ttof3"]
@@ -52,9 +52,6 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1d4dg"]
 size = Vector2(8, 16)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_mfvtp"]
-size = Vector2(8, 16)
-
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_prbjj")
 
@@ -77,10 +74,14 @@ disabled = true
 script = ExtResource("9_5eboo")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FallDetection"]
-shape = SubResource("RectangleShape2D_mfvtp")
+shape = SubResource("RectangleShape2D_1d4dg")
 
 [node name="RemoteFallDetection" type="RemoteTransform2D" parent="."]
-remote_path = NodePath("../FallDetection")
+remote_path = NodePath("../FallDetection/CollisionShape2D")
+
+[node name="CoyoteTimer" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
 
 [connection signal="player_off_tilemap" from="FallDetection" to="." method="_on_static_body_2d_player_off_tilemap"]
 [connection signal="player_on_tilemap" from="FallDetection" to="." method="_on_static_body_2d_player_on_tilemap"]
