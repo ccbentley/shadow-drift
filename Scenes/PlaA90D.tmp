@@ -61,7 +61,10 @@ script = ExtResource("1_prbjj")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_gm1kr")
 animation = &"run"
-frame_progress = 0.378895
+frame_progress = 0.660864
+
+[node name="RemoteCamera" type="RemoteTransform2D" parent="AnimatedSprite2D"]
+remote_path = NodePath(".Camera2D")
 
 [node name="Shadow" type="Sprite2D" parent="."]
 modulate = Color(1, 1, 1, 0.403922)

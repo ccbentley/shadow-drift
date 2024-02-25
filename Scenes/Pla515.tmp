@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bpyqr2dwikw5q"]
+[gd_scene load_steps=11 format=3 uid="uid://bpyqr2dwikw5q"]
 
 [ext_resource type="Script" path="res://Sripts/player.gd" id="1_prbjj"]
 [ext_resource type="Texture2D" uid="uid://dvi5x285ykovo" path="res://Art/StickyMan/idle/idle1.png" id="2_ttof3"]
@@ -8,7 +8,6 @@
 [ext_resource type="Texture2D" uid="uid://pl4oyslpf7o7" path="res://Art/StickyMan/run/corsa2.png" id="6_vckcc"]
 [ext_resource type="Texture2D" uid="uid://xac5hpu3fp6x" path="res://Art/StickyMan/run/corsa3.png" id="7_ypgio"]
 [ext_resource type="Texture2D" uid="uid://b4sy3yac5wm7x" path="res://Art/Shadow.png" id="8_lnxx2"]
-[ext_resource type="Script" path="res://Sripts/player_fall.gd" id="9_5eboo"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_gm1kr"]
 animations = [{
@@ -52,16 +51,21 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1d4dg"]
 size = Vector2(8, 16)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_mfvtp"]
-size = Vector2(8, 16)
-
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_prbjj")
+max_speed = null
+accel = null
+friction = null
+is_facing_right = null
+can_move = null
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_gm1kr")
 animation = &"run"
-frame_progress = 0.378895
+frame_progress = 0.00383929
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="AnimatedSprite2D"]
+remote_path = NodePath("../../Camera2D")
 
 [node name="Shadow" type="Sprite2D" parent="."]
 modulate = Color(1, 1, 1, 0.403922)
@@ -69,18 +73,11 @@ z_index = -1
 position = Vector2(0, 7)
 texture = ExtResource("8_lnxx2")
 
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(3.5, 3.5)
+position_smoothing_enabled = true
+position_smoothing_speed = 4.0
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_1d4dg")
 disabled = true
-
-[node name="FallDetection" type="StaticBody2D" parent="."]
-script = ExtResource("9_5eboo")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="FallDetection"]
-shape = SubResource("RectangleShape2D_mfvtp")
-
-[node name="RemoteFallDetection" type="RemoteTransform2D" parent="."]
-remote_path = NodePath("../FallDetection")
-
-[connection signal="player_off_tilemap" from="FallDetection" to="." method="_on_static_body_2d_player_off_tilemap"]
-[connection signal="player_on_tilemap" from="FallDetection" to="." method="_on_static_body_2d_player_on_tilemap"]
