@@ -83,5 +83,9 @@ remote_path = NodePath("../FallDetection/CollisionShape2D")
 wait_time = 0.2
 one_shot = true
 
+[node name="RespawnTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
 [connection signal="player_off_tilemap" from="FallDetection" to="." method="_on_static_body_2d_player_off_tilemap"]
 [connection signal="player_on_tilemap" from="FallDetection" to="." method="_on_static_body_2d_player_on_tilemap"]

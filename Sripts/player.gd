@@ -5,25 +5,29 @@ extends CharacterBody2D
 @export var friction : float = 600
 
 var input : Vector2 = Vector2.ZERO
+var current_checkpoint : Vector2 = Vector2(0,0)
 
 var is_facing_right : bool = true
 var can_move : bool = true
 var follow_cam_enabled : bool = true
 var is_jumping : bool = false
-var is_alive : bool = true
+@export var is_alive : bool = true
 var player_off_map : bool = false
 var coyote_time_active : bool = false
 
 @onready var anim = $AnimatedSprite2D
 @onready var camera = $"../Camera2D"
 @onready var coyote_timer = $CoyoteTimer
+@onready var respawn_timer = $RespawnTimer
 
 var tween : Tween 
+
+func _ready():
+	respawn()
 
 func _process(delta):
 	if(follow_cam_enabled):
 		camera.global_position = Vector2(anim.global_position)
-	print(coyote_timer.time_left)
 
 func _physics_process(delta):
 	if(can_move):
@@ -43,9 +47,12 @@ func _physics_process(delta):
 	if(Input.is_action_just_released("jump") && is_jumping):
 		stop_jump()
 
-	if(player_off_map && is_alive && !is_jumping && coyote_timer.time_left <= 0):
+	if(player_off_map && is_alive && !is_jumping && coyote_timer.time_left <= 0 && respawn_timer.time_left <= 0):
 		is_alive = false
 		player_die()
+		
+	if(Input.is_key_pressed(KEY_E)):
+		respawn()
 
 func player_movement(delta):
 	input.x = (Input.get_action_strength("right")) - (Input.get_action_strength("left"))
@@ -108,7 +115,7 @@ func enable_movement():
 
 func _on_static_body_2d_player_off_tilemap():
 	player_off_map = true
-	if(coyote_time_active):
+	if(coyote_time_active && !is_jumping):
 		coyote_timer.start()
 		coyote_time_active = false
 
@@ -117,8 +124,20 @@ func _on_static_body_2d_player_on_tilemap():
 	player_off_map = false
 
 func player_die():
+	print("player died")
 	disable_movement()
 	follow_cam_enabled = false
 	tween = get_tree().create_tween()
 	z_index = -6
-	tween.tween_property(self, "position", Vector2(self.position.x,200), 0.8).set_trans(Tween.TRANS_QUAD * Tween.EASE_IN)
+	tween.tween_property(self, "global_position", Vector2(self.position.x,200), 0.8).set_trans(Tween.TRANS_QUAD * Tween.EASE_IN)
+	await get_tree().create_timer(1).timeout
+	respawn()
+	
+func respawn():
+	respawn_timer.start()
+	print("player respawned")
+	global_position = current_checkpoint
+	is_alive = true
+	z_index = 1
+	follow_cam_enabled = true
+	enable_movement()
