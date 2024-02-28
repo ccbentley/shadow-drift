@@ -1,5 +1,5 @@
 extends StaticBody2D
-@onready var collision_shape = $CollisionShape2D
+
 signal player_on_tilemap
 signal player_off_tilemap
 

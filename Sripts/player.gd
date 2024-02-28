@@ -1,8 +1,8 @@
 extends CharacterBody2D
 
 @export var max_speed : float = 100
-@export var accel : float = 1500
-@export var friction : float = 600
+@export var accel : float = 1200
+@export var friction : float = 500
 var input : Vector2 = Vector2.ZERO
 var current_checkpoint : Vector2 = Vector2(0,0)
 var squash_scale = Vector2(1.2, 0.8)
@@ -15,6 +15,7 @@ var is_jumping : bool = false
 var is_alive : bool = true
 var player_off_map : bool = false
 var coyote_time_active : bool = false
+var is_on_moving_platform : bool = false
 
 @onready var anim = $AnimatedSprite2D
 @onready var shadow = $Shadow
@@ -27,6 +28,7 @@ var jump_tween : Tween
 var squash_tween : Tween 
 var death_tween : Tween
 
+var current_plat = null
 
 func _ready():
 	respawn()
@@ -62,6 +64,9 @@ func _physics_process(delta):
 	if(player_off_map && is_alive && !is_jumping && coyote_timer.time_left <= 0 && respawn_timer.time_left <= 0):
 		is_alive = false
 		player_die()
+		
+	if(is_on_moving_platform):
+		move_with_platform()
 
 func player_movement(delta):
 	input.x = (Input.get_action_strength("right")) - (Input.get_action_strength("left"))
@@ -98,26 +103,26 @@ func jump(jump_height, jump_speed, fall_speed):
 	coyote_timer.stop()
 	#Move player up and down
 	jump_tween = get_tree().create_tween()
-	jump_tween.tween_property(anim, "position", Vector2(0, -jump_height), jump_speed).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-	jump_tween.tween_property(anim, "position", Vector2(0,0), fall_speed).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	jump_tween.tween_property(anim, "position", Vector2(0, -jump_height), jump_speed).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	jump_tween.tween_property(anim, "position", Vector2(0,0), fall_speed).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 	jump_tween.connect("finished", on_jump_tween_finished)
 	#Add squash/stretch effect
 	squash_tween = get_tree().create_tween()
 	anim.scale = squash_scale
-	squash_tween.tween_property(anim, "scale", stretch_scale, 0.3).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
+	squash_tween.tween_property(anim, "scale", stretch_scale, 0.3).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 	#After the jump, return to original scale
-	squash_tween.tween_property(anim, "scale", Vector2(1, 1), 0.1).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
+	squash_tween.tween_property(anim, "scale", Vector2(1, 1), 0.1).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 
 func stop_jump(fall_speed):
 	await get_tree(). create_timer(0.04).timeout
 	jump_tween.kill()
 	jump_tween = get_tree().create_tween()
 	#Move player down
-	jump_tween.tween_property(anim, "position", Vector2(0,0), fall_speed).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
+	jump_tween.tween_property(anim, "position", Vector2(0,0), fall_speed).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 	jump_tween.connect("finished", on_jump_tween_finished)
 	squash_tween = get_tree().create_tween()
 	#Scale player back to normal
-	squash_tween.tween_property(anim, "scale", Vector2(1, 1), 0.075).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
+	squash_tween.tween_property(anim, "scale", Vector2(1, 1), 0.075).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 
 func on_jump_tween_finished():
 	is_jumping = false
@@ -127,19 +132,6 @@ func disable_movement():
 func enable_movement():
 	can_move = true
 
-func _on_static_body_2d_player_off_tilemap():
-	#Player stepped off tiles
-	player_off_map = true
-	if(coyote_time_active && !is_jumping):
-		coyote_timer.start()
-		coyote_time_active = false
-
-func _on_static_body_2d_player_on_tilemap():
-	#Player on tiles
-	if(!is_jumping):
-		coyote_time_active = true
-	player_off_map = false
-
 func player_die():
 	#Move player down and respawn
 	disable_movement()
@@ -147,7 +139,7 @@ func player_die():
 	shadow.visible = false
 	death_tween = get_tree().create_tween()
 	z_index = -6
-	death_tween.tween_property(self, "global_position", Vector2(self.position.x, self.position.y + 200), 0.8).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	death_tween.tween_property(self, "global_position", Vector2(self.position.x, self.position.y + 200), 0.6).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 	await get_tree().create_timer(1).timeout
 	respawn()
 	
@@ -160,3 +152,31 @@ func respawn():
 	z_index = 1
 	follow_cam_enabled = true
 	enable_movement()
+
+func _on_fall_detection_player_off_tilemap():
+	#Player stepped off tiles
+	player_off_map = true
+	if(coyote_time_active && !is_jumping):
+		coyote_timer.start()
+		coyote_time_active = false
+
+func _on_fall_detection_player_on_tilemap():
+	#Player on tiles
+	if(!is_jumping):
+		coyote_time_active = true
+	player_off_map = false
+
+func move_with_platform():
+	if(current_plat != null):
+		global_position = global_position + current_plat.movement
+
+func _on_area_2d_area_entered(area):
+	if(area.is_in_group("Moving Platform")):
+		is_on_moving_platform = true
+		current_plat = area.get_parent()
+		
+
+func _on_area_2d_area_exited(area):
+	if(area.is_in_group("Moving Platform")):
+		is_on_moving_platform = false
+		current_plat = null
