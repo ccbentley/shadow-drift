@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://bn8n556yy8jee"]
+
+[ext_resource type="Script" path="res://Sripts/disappearing_platform.gd" id="1_385lc"]
+[ext_resource type="Texture2D" uid="uid://bvy6p5gwbjn22" path="res://Art/Sprite-0001.png" id="1_mk587"]
+
+[node name="DisappearingPlatform" type="StaticBody2D"]
+script = ExtResource("1_385lc")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_mk587")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+polygon = PackedVector2Array(4, -13, -4, -13, -16, -7, -16, 0, -4, 8, 4, 8, 16, 2, 16, -7)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(4, -13, -4, -13, -16, -7, -16, 0, -4, 8, 4, 8, 16, 2, 16, -7)
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]

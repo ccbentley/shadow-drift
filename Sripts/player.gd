@@ -174,7 +174,6 @@ func _on_area_2d_area_entered(area):
 	if(area.is_in_group("Moving Platform")):
 		is_on_moving_platform = true
 		current_plat = area.get_parent()
-		
 
 func _on_area_2d_area_exited(area):
 	if(area.is_in_group("Moving Platform")):
