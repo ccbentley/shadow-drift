@@ -6,7 +6,7 @@ const CHAR_READ_RATE = 0.05
 @onready var start_symbol = $TextboxContainer/MarginContainer/HBoxContainer/Start
 @onready var end_symbol = $TextboxContainer/MarginContainer/HBoxContainer/End
 @onready var label = $TextboxContainer/MarginContainer/HBoxContainer/Label
-var tween
+var tween : Tween
 
 @onready var player = $"../Player"
 
@@ -65,7 +65,7 @@ func display_text():
 	label.visible_characters = 0.0
 	change_state(State.READING)
 	show_textbox()
-	tween.tween_property(label, "visible_characters", len(next_text), len(next_text) * CHAR_READ_RATE).from(0).finished
+	tween.tween_property(label, "visible_characters", len(next_text), len(next_text) * CHAR_READ_RATE).from(0)
 	tween.connect("finished", on_tween_finished)
 
 func on_tween_finished():

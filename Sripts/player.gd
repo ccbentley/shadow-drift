@@ -30,6 +30,10 @@ var death_tween : Tween
 
 var current_plat = null
 
+@onready var footsteps = $Footsteps
+@onready var land = $Land
+@onready var land_sound_timer = $Land/LandSoundTimer
+
 func _ready():
 	respawn()
 
@@ -68,6 +72,13 @@ func _physics_process(delta):
 	if(is_on_moving_platform):
 		move_with_platform()
 
+	if(input != Vector2(0,0) && !is_jumping && is_alive && can_move):
+		if(!footsteps.playing && land_sound_timer.time_left <= 0):
+			footsteps.play()
+	else:
+		if(footsteps.playing):
+			footsteps.stop()
+	
 func player_movement(delta):
 	input.x = (Input.get_action_strength("right")) - (Input.get_action_strength("left"))
 	input.y = ((Input.get_action_strength("down")) - int(Input.get_action_strength("up")))/2
@@ -126,6 +137,8 @@ func stop_jump(fall_speed):
 
 func on_jump_tween_finished():
 	is_jumping = false
+	land_sound_timer.start()
+	land.play()
 
 func disable_movement():
 	can_move = false

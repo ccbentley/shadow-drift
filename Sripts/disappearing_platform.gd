@@ -3,9 +3,8 @@ extends StaticBody2D
 var is_on_platform : bool = false
 
 @onready var sprite = $Sprite2D
-@onready var player = $"../Player"
 @onready var col = $CollisionPolygon2D
-
+@onready var player = $"../../Player"
 @onready var pos_tween : Tween
 @onready var color_tween : Tween
 
@@ -39,7 +38,6 @@ func break_platform():
 	respawn_platform()
 	
 func respawn_platform():
-	await get_tree(). create_timer(0.01).timeout
 	sprite.position = Vector2(0,0)
 	color_tween = get_tree().create_tween()
 	color_tween.tween_property(sprite, "modulate", Color(1, 1, 1 , 1), 0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
