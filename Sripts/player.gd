@@ -187,8 +187,13 @@ func _on_area_2d_area_entered(area):
 	if(area.is_in_group("Moving Platform")):
 		is_on_moving_platform = true
 		current_plat = area.get_parent()
+	if(area.is_in_group("Checkpoint")):
+		set_checkpoint(area.global_position)
 
 func _on_area_2d_area_exited(area):
 	if(area.is_in_group("Moving Platform")):
 		is_on_moving_platform = false
 		current_plat = null
+
+func set_checkpoint(checkpoint : Vector2):
+	current_checkpoint = checkpoint
