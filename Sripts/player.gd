@@ -23,6 +23,7 @@ var is_on_moving_platform : bool = false
 @onready var coyote_timer = $CoyoteTimer
 @onready var respawn_timer = $RespawnTimer
 @onready var jump_buffer_timer = $JumpBufferTimer
+@onready var pspeed_timer = $PSpeedTimer
 
 var jump_tween : Tween 
 var squash_tween : Tween 
@@ -78,6 +79,43 @@ func _physics_process(delta):
 	else:
 		if(footsteps.playing):
 			footsteps.stop()
+	
+	pspeed()
+
+var pspeed_active : bool = false
+var last_input : Vector2 = Vector2.ZERO
+func pspeed():
+	if((input.x > 0 && last_input.x < 0 || input.x > 0 && last_input.x == 0) and !pspeed_active):
+		last_input.x = input.x
+		pspeed_timer.start()
+	if((input.x < 0 && last_input.x > 0 || input.x < 0 && last_input.x == 0) and !pspeed_active):
+		last_input.x = input.x
+		pspeed_timer.start()
+	
+	if((input.y > 0 && last_input.y < 0 || input.y > 0 && last_input.y == 0) and !pspeed_active):
+		last_input.y = input.y
+		pspeed_timer.start()
+	if((input.y < 0 && last_input.y > 0 || input.y < 0 && last_input.y == 0) and !pspeed_active):
+		last_input.y = input.y
+		pspeed_timer.start()
+		
+	if(is_jumping):
+		pspeed_timer.stop()
+		
+	if(input == Vector2.ZERO):
+		last_input.x = 0
+		last_input.y = 0
+		pspeed_timer.stop()
+		
+	if(!pspeed_active && pspeed_timer.time_left > 0 && pspeed_timer.time_left < 0.1):
+		pspeed_active = true
+		anim.modulate = Color(0,0,255,255)
+		max_speed = max_speed * 1.2
+	if(pspeed_active and last_input.x != input.x or pspeed_active and input == Vector2.ZERO):
+		pspeed_active = false
+		anim.modulate = Color(255,255,255,255)
+		max_speed = 100
+	
 	
 func player_movement(delta):
 	input.x = (Input.get_action_strength("right")) - (Input.get_action_strength("left"))
