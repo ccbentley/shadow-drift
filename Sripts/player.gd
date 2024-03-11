@@ -20,6 +20,7 @@ var is_on_moving_platform : bool = false
 @onready var anim = $AnimatedSprite2D
 @onready var shadow = $Shadow
 @onready var camera = $"../Camera2D"
+@onready var trail_effect = $TrailEffect
 @onready var coyote_timer = $CoyoteTimer
 @onready var respawn_timer = $RespawnTimer
 @onready var jump_buffer_timer = $JumpBufferTimer
@@ -84,6 +85,7 @@ func _physics_process(delta):
 
 var pspeed_active : bool = false
 var last_input : Vector2 = Vector2.ZERO
+var pspeed_multiplyer : float = 1.2
 func pspeed():
 	if((input.x > 0 && last_input.x < 0 || input.x > 0 && last_input.x == 0) and !pspeed_active):
 		last_input.x = input.x
@@ -101,21 +103,20 @@ func pspeed():
 		
 	if(is_jumping):
 		pspeed_timer.stop()
+		last_input = Vector2.ZERO
 		
 	if(input == Vector2.ZERO):
-		last_input.x = 0
-		last_input.y = 0
+		last_input = Vector2.ZERO
 		pspeed_timer.stop()
 		
 	if(!pspeed_active && pspeed_timer.time_left > 0 && pspeed_timer.time_left < 0.1):
 		pspeed_active = true
-		anim.modulate = Color(0,0,255,255)
-		max_speed = max_speed * 1.2
-	if(pspeed_active and last_input.x != input.x or pspeed_active and input == Vector2.ZERO):
+		trail_effect.emitting = true
+		max_speed = max_speed * pspeed_multiplyer
+	if(pspeed_active and input == Vector2.ZERO):
 		pspeed_active = false
-		anim.modulate = Color(255,255,255,255)
+		trail_effect.emitting = false
 		max_speed = 100
-	
 	
 func player_movement(delta):
 	input.x = (Input.get_action_strength("right")) - (Input.get_action_strength("left"))
