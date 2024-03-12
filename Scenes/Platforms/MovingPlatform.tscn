@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Sripts/moving_platform_pos.gd" id="1_w2073"]
 [ext_resource type="Texture2D" uid="uid://c7vy72738yoxw" path="res://Art/Black_Platform_Large_x4.png" id="2_xgp0s"]
 
-[node name="Platform" type="AnimatableBody2D" groups=["Moving Platform"]]
+[node name="MovingPlatform" type="AnimatableBody2D" groups=["Moving Platform"]]
 script = ExtResource("1_w2073")
 
 [node name="Sprite2D" type="Sprite2D" parent="." groups=["Moving Platform"]]

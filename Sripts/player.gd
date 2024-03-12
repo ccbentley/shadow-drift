@@ -16,6 +16,7 @@ var is_alive : bool = true
 var player_off_map : bool = false
 var coyote_time_active : bool = false
 var is_on_moving_platform : bool = false
+var pspeed_enabled : bool = false
 
 @onready var anim = $AnimatedSprite2D
 @onready var shadow = $Shadow
@@ -81,7 +82,8 @@ func _physics_process(delta):
 		if(footsteps.playing):
 			footsteps.stop()
 	
-	pspeed()
+	if(pspeed_enabled):
+		pspeed()
 
 var pspeed_active : bool = false
 var last_input : Vector2 = Vector2.ZERO
