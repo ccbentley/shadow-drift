@@ -1,54 +1,78 @@
-[gd_scene load_steps=17 format=3 uid="uid://bpyqr2dwikw5q"]
+[gd_scene load_steps=21 format=3 uid="uid://bpyqr2dwikw5q"]
 
 [ext_resource type="Script" path="res://Sripts/player.gd" id="1_prbjj"]
-[ext_resource type="Texture2D" uid="uid://dvi5x285ykovo" path="res://Art/StickyMan/idle/idle1.png" id="2_ttof3"]
-[ext_resource type="Texture2D" uid="uid://h8ouq025khwp" path="res://Art/StickyMan/idle/idle2.png" id="3_bi12p"]
-[ext_resource type="Texture2D" uid="uid://cqjoiksj3gjv8" path="res://Art/StickyMan/jump/salto1.png" id="4_fqqxo"]
-[ext_resource type="Texture2D" uid="uid://c3yrqor1aixpy" path="res://Art/StickyMan/run/corsa1.png" id="5_88myp"]
-[ext_resource type="Texture2D" uid="uid://pl4oyslpf7o7" path="res://Art/StickyMan/run/corsa2.png" id="6_vckcc"]
-[ext_resource type="Texture2D" uid="uid://xac5hpu3fp6x" path="res://Art/StickyMan/run/corsa3.png" id="7_ypgio"]
-[ext_resource type="Texture2D" uid="uid://b4sy3yac5wm7x" path="res://Art/Shadow.png" id="8_lnxx2"]
+[ext_resource type="Texture2D" uid="uid://bbyp6y7545kyc" path="res://Art/Player/player_idle.png" id="2_lsmsn"]
+[ext_resource type="Texture2D" uid="uid://ci18plhvxtrv4" path="res://Art/Player/player_walk_cycle.png" id="3_b2r3h"]
+[ext_resource type="Texture2D" uid="uid://b4sy3yac5wm7x" path="res://Art/Player/Shadow.png" id="8_lnxx2"]
 [ext_resource type="Script" path="res://Sripts/player_fall.gd" id="9_5eboo"]
 [ext_resource type="AudioStream" uid="uid://cweal1iqrluop" path="res://Sounds/Footsteps125.wav" id="10_m44ro"]
 [ext_resource type="AudioStream" uid="uid://dy07o1mawmp5p" path="res://Sounds/LandWood.wav" id="11_brq8o"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5a4gc"]
+atlas = ExtResource("2_lsmsn")
+region = Rect2(0, 0, 16, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2f45m"]
+atlas = ExtResource("2_lsmsn")
+region = Rect2(16, 0, 16, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tddfw"]
+atlas = ExtResource("2_lsmsn")
+region = Rect2(0, 0, 16, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uh50y"]
+atlas = ExtResource("3_b2r3h")
+region = Rect2(0, 0, 16, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gvqbp"]
+atlas = ExtResource("3_b2r3h")
+region = Rect2(16, 0, 16, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2bs6v"]
+atlas = ExtResource("3_b2r3h")
+region = Rect2(32, 0, 16, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2p414"]
+atlas = ExtResource("3_b2r3h")
+region = Rect2(48, 0, 16, 22)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_gm1kr"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_ttof3")
+"texture": SubResource("AtlasTexture_5a4gc")
 }, {
 "duration": 1.0,
-"texture": ExtResource("3_bi12p")
+"texture": SubResource("AtlasTexture_2f45m")
 }],
 "loop": true,
 "name": &"idle",
-"speed": 3.0
+"speed": 2.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("4_fqqxo")
+"texture": SubResource("AtlasTexture_tddfw")
 }],
 "loop": true,
 "name": &"jump",
-"speed": 5.0
+"speed": 0.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("5_88myp")
+"texture": SubResource("AtlasTexture_uh50y")
 }, {
 "duration": 1.0,
-"texture": ExtResource("6_vckcc")
+"texture": SubResource("AtlasTexture_gvqbp")
 }, {
 "duration": 1.0,
-"texture": ExtResource("7_ypgio")
+"texture": SubResource("AtlasTexture_2bs6v")
 }, {
 "duration": 1.0,
-"texture": ExtResource("6_vckcc")
+"texture": SubResource("AtlasTexture_2p414")
 }],
 "loop": true,
 "name": &"run",
-"speed": 7.0
+"speed": 6.0
 }]
 
 [sub_resource type="Gradient" id="Gradient_nr6w2"]
@@ -62,11 +86,18 @@ gravity = Vector3(2.08165e-12, 2.08165e-12, 2.08165e-12)
 color = Color(0.509804, 1, 1, 1)
 color_ramp = SubResource("GradientTexture1D_1vb77")
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_dfxyw"]
+atlas = ExtResource("2_lsmsn")
+region = Rect2(0, 0, 16, 20)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1d4dg"]
 size = Vector2(7.5, 5.5)
 
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
+collision_layer = 2
+collision_mask = 2
 script = ExtResource("1_prbjj")
+pspeed_enabled = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_gm1kr")
@@ -78,20 +109,20 @@ remote_path = NodePath("../../TrailEffect")
 [node name="Shadow" type="Sprite2D" parent="."]
 modulate = Color(1, 1, 1, 0.705882)
 z_index = -1
-position = Vector2(2.08165e-12, 7)
+position = Vector2(0, 9.5)
 texture = ExtResource("8_lnxx2")
 
 [node name="TrailEffect" type="GPUParticles2D" parent="."]
 emitting = false
 amount = 3
 process_material = SubResource("ParticleProcessMaterial_6vay6")
-texture = ExtResource("2_ttof3")
+texture = SubResource("AtlasTexture_dfxyw")
 lifetime = 0.4
+visibility_rect = Rect2(-100, -100, 100, 200)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 5.75)
 shape = SubResource("RectangleShape2D_1d4dg")
-disabled = true
 
 [node name="FallDetection" type="StaticBody2D" parent="."]
 script = ExtResource("9_5eboo")

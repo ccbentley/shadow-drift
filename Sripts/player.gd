@@ -16,7 +16,9 @@ var is_alive : bool = true
 var player_off_map : bool = false
 var coyote_time_active : bool = false
 var is_on_moving_platform : bool = false
-var pspeed_enabled : bool = false
+
+@export var pspeed_enabled : bool = false
+@export var slow_fall_enabled : bool = false
 
 @onready var anim = $AnimatedSprite2D
 @onready var shadow = $Shadow
@@ -59,9 +61,15 @@ func _physics_process(delta):
 	if(Input.is_action_just_pressed("jump")):
 		jump_buffer_timer.start()
 		if(can_move && !is_jumping or can_move && player_off_map && coyote_timer.time_left > 0 && !is_jumping):
-			jump(20, 0.15, 0.3)
+			if(slow_fall_enabled):
+				jump(20, 0.15, 0.6)
+			else:
+				jump(20, 0.15, 0.3)
 	if(can_move && jump_buffer_timer.time_left > 0 && !is_jumping && !player_off_map or jump_buffer_timer.time_left > 0 && can_move && player_off_map && coyote_timer.time_left > 0 && !is_jumping):
-		jump(20, 0.15, 0.3)
+		if(slow_fall_enabled):
+			jump(20, 0.15, 0.6)
+		else:
+			jump(20, 0.15, 0.3)
 		jump_buffer_timer.stop()
 
 	if(Input.is_action_just_released("jump") && is_jumping):

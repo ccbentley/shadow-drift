@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bvy6p5gwbjn22"
-path="res://.godot/imported/Sprite-0001.png-20ab68b34e6ca5e9f36261a766341a31.ctex"
+uid="uid://c7vy72738yoxw"
+path="res://.godot/imported/Black_Platform_Large_x4.png-2c428f263bce9caa5b5465925a3a83af.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Art/Sprite-0001.png"
-dest_files=["res://.godot/imported/Sprite-0001.png-20ab68b34e6ca5e9f36261a766341a31.ctex"]
+source_file="res://Art/Platforms/Black_Platform_Large_x4.png"
+dest_files=["res://.godot/imported/Black_Platform_Large_x4.png-2c428f263bce9caa5b5465925a3a83af.ctex"]
 
 [params]
 

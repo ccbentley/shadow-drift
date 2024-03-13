@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c7vy72738yoxw"
-path="res://.godot/imported/Black_Platform_Large_x4.png-2bd842a00a5f75601eec5e326964fe2c.ctex"
+uid="uid://bbyp6y7545kyc"
+path="res://.godot/imported/player_idle.png-f1c0895524ab6cdb92088dfd8c0430c8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Art/Black_Platform_Large_x4.png"
-dest_files=["res://.godot/imported/Black_Platform_Large_x4.png-2bd842a00a5f75601eec5e326964fe2c.ctex"]
+source_file="res://Art/Player/player_idle.png"
+dest_files=["res://.godot/imported/player_idle.png-f1c0895524ab6cdb92088dfd8c0430c8.ctex"]
 
 [params]
 

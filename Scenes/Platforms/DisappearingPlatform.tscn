@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bn8n556yy8jee"]
 
 [ext_resource type="Script" path="res://Sripts/disappearing_platform.gd" id="1_385lc"]
-[ext_resource type="Texture2D" uid="uid://c7vy72738yoxw" path="res://Art/Black_Platform_Large_x4.png" id="2_28a16"]
+[ext_resource type="Texture2D" uid="uid://c7vy72738yoxw" path="res://Art/Platforms/Black_Platform_Large_x4.png" id="2_28a16"]
 
 [node name="DisappearingPlatform" type="StaticBody2D"]
 script = ExtResource("1_385lc")

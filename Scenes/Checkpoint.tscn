@@ -1,11 +1,16 @@
-[gd_scene load_steps=3 format=3 uid="uid://ln7wghyk268j"]
+[gd_scene load_steps=4 format=3 uid="uid://ln7wghyk268j"]
 
 [ext_resource type="Texture2D" uid="uid://cticpnh5wt1d4" path="res://Art/Flag.png" id="1_0kjjb"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_t7l70"]
 radius = 50.0
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ows0k"]
+size = Vector2(4.5, 4)
+
 [node name="Checkpoint" type="StaticBody2D" groups=["Checkpoint"]]
+collision_layer = 2
+collision_mask = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(8.5, -24)
@@ -18,5 +23,5 @@ texture = ExtResource("1_0kjjb")
 shape = SubResource("CircleShape2D_t7l70")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_t7l70")
-disabled = true
+position = Vector2(0.25, -2)
+shape = SubResource("RectangleShape2D_ows0k")
