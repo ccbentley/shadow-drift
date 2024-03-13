@@ -73,7 +73,7 @@ emission_rect_extents = Vector2(500, 500)
 gravity = Vector2(20, 5)
 scale_amount_min = 0.5
 scale_amount_max = 2.0
-color = Color(0.45098, 0.576471, 0.701961, 1)
+color = Color(0, 0, 0, 1)
 
 [node name="MovingPlatforms" type="Node2D" parent="." node_paths=PackedStringArray("plat1")]
 script = ExtResource("3_tnp3u")
