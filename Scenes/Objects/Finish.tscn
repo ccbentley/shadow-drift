@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://bhatxv5et3iy7"]
+
+[ext_resource type="Texture2D" uid="uid://di8dcyworom7m" path="res://Art/BlueFlag.png" id="1_6ufqt"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_t7l70"]
+radius = 50.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ows0k"]
+size = Vector2(5, 11)
+
+[node name="Finish" type="StaticBody2D" groups=["Finish"]]
+z_index = 1
+y_sort_enabled = true
+collision_layer = 2
+collision_mask = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 2
+y_sort_enabled = true
+position = Vector2(8.5, -24)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("1_6ufqt")
+
+[node name="Area2D" type="Area2D" parent="." groups=["Finish"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" groups=["Finish"]]
+shape = SubResource("CircleShape2D_t7l70")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["Finish"]]
+position = Vector2(-1.25, 1.5)
+shape = SubResource("RectangleShape2D_ows0k")

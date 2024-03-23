@@ -3,10 +3,14 @@ extends CharacterBody2D
 @export var max_speed : float = 100
 @export var accel : float = 1200
 @export var friction : float = 500
+@export var number_of_dashes : int = 1
+var dashes_remaining : int = 0
 var input : Vector2 = Vector2.ZERO
+var last_input : Vector2 = Vector2.ZERO
 var current_checkpoint : Vector2 = Vector2(0,0)
 var squash_scale = Vector2(1.2, 0.8)
 var stretch_scale = Vector2(0.8, 1.2)
+var pspeed_multiplyer : float = 1.2
 
 var is_facing_right : bool = true
 var can_move : bool = true
@@ -16,6 +20,7 @@ var is_alive : bool = true
 var player_off_map : bool = false
 var coyote_time_active : bool = false
 var is_on_moving_platform : bool = false
+var pspeed_active : bool = false
 
 @export var pspeed_enabled : bool = false
 @export var slow_fall_enabled : bool = false
@@ -28,10 +33,12 @@ var is_on_moving_platform : bool = false
 @onready var respawn_timer = $RespawnTimer
 @onready var jump_buffer_timer = $JumpBufferTimer
 @onready var pspeed_timer = $PSpeedTimer
+@onready var dash_cooldown_timer = $DashCooldownTimer
 
-var jump_tween : Tween 
-var squash_tween : Tween 
+var jump_tween : Tween
+var squash_tween : Tween
 var death_tween : Tween
+var dash_tween : Tween
 
 var current_plat = null
 
@@ -50,14 +57,14 @@ func _process(_delta):
 func _physics_process(delta):
 	if(can_move):
 		player_movement(delta)
-	
+
 	play_anim(input)
-	
+
 	if(is_facing_right):
 		anim.flip_h = false
 	elif(!is_facing_right):
 		anim.flip_h = true
-	
+
 	if(Input.is_action_just_pressed("jump")):
 		jump_buffer_timer.start()
 		if(can_move && !is_jumping or can_move && player_off_map && coyote_timer.time_left > 0 && !is_jumping):
@@ -79,7 +86,7 @@ func _physics_process(delta):
 	if(player_off_map && is_alive && !is_jumping && coyote_timer.time_left <= 0 && respawn_timer.time_left <= 0):
 		is_alive = false
 		player_die()
-		
+
 	if(is_on_moving_platform):
 		move_with_platform()
 
@@ -89,36 +96,52 @@ func _physics_process(delta):
 	else:
 		if(footsteps.playing):
 			footsteps.stop()
-	
+
 	if(pspeed_enabled):
 		pspeed()
 
-var pspeed_active : bool = false
-var last_input : Vector2 = Vector2.ZERO
-var pspeed_multiplyer : float = 1.2
+	if(Input.is_action_just_pressed("dash")):
+		if(can_move && dashes_remaining > 0 && dash_cooldown_timer.time_left <= 0):
+			dash(100,0.5)
+	if(!is_jumping && can_move && !player_off_map):
+		dashes_remaining = number_of_dashes
+
+func dash(dash_strength : float, dash_speed : float):
+	dashes_remaining -= 1
+	is_jumping = true
+	dash_cooldown_timer.start()
+	trail_effect.emitting = true
+	dash_tween = get_tree().create_tween()
+	dash_tween.tween_property(self, "position", position + Vector2(dash_strength * input.x, dash_strength * input.y), dash_speed).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	dash_tween.connect("finished", on_dash_tween_finished)
+
+func on_dash_tween_finished():
+	is_jumping = false
+	trail_effect.emitting = false
+
 func pspeed():
-	if((input.x > 0 && last_input.x < 0 || input.x > 0 && last_input.x == 0) and !pspeed_active):
+	if((input.x > 0 && last_input.x < 0 or input.x > 0 && last_input.x == 0) and !pspeed_active):
 		last_input.x = input.x
 		pspeed_timer.start()
-	if((input.x < 0 && last_input.x > 0 || input.x < 0 && last_input.x == 0) and !pspeed_active):
+	if((input.x < 0 && last_input.x > 0 or input.x < 0 && last_input.x == 0) and !pspeed_active):
 		last_input.x = input.x
 		pspeed_timer.start()
-	
-	if((input.y > 0 && last_input.y < 0 || input.y > 0 && last_input.y == 0) and !pspeed_active):
+
+	if((input.y > 0 && last_input.y < 0 or input.y > 0 && last_input.y == 0) and !pspeed_active):
 		last_input.y = input.y
 		pspeed_timer.start()
-	if((input.y < 0 && last_input.y > 0 || input.y < 0 && last_input.y == 0) and !pspeed_active):
+	if((input.y < 0 && last_input.y > 0 or input.y < 0 && last_input.y == 0) and !pspeed_active):
 		last_input.y = input.y
 		pspeed_timer.start()
-		
+
 	if(is_jumping):
 		pspeed_timer.stop()
 		last_input = Vector2.ZERO
-		
-	if(input == Vector2.ZERO):
+
+	if(input == Vector2.ZERO or velocity == Vector2.ZERO):
 		last_input = Vector2.ZERO
 		pspeed_timer.stop()
-		
+
 	if(!pspeed_active && pspeed_timer.time_left > 0 && pspeed_timer.time_left < 0.1):
 		pspeed_active = true
 		trail_effect.emitting = true
@@ -127,12 +150,12 @@ func pspeed():
 		pspeed_active = false
 		trail_effect.emitting = false
 		max_speed = 100
-	
+
 func player_movement(delta):
 	input.x = (Input.get_action_strength("right")) - (Input.get_action_strength("left"))
 	input.y = ((Input.get_action_strength("down")) - int(Input.get_action_strength("up")))/2
 	input = input.normalized()
-	
+
 	if(input == Vector2.ZERO):
 		if(velocity.length() > (friction * delta)):
 			velocity -= velocity.normalized() * (friction * delta)
@@ -148,10 +171,10 @@ func play_anim(move_input : Vector2):
 		anim.play("idle")
 	elif(move_input != Vector2.ZERO && can_move && !is_jumping):
 		anim.play("run")
-	
+
 	if(is_jumping):
 		anim.play("jump")
-		
+
 	if(move_input.x > 0 && can_move):
 		is_facing_right = true
 	elif(move_input.x < 0 && can_move):
@@ -204,7 +227,7 @@ func player_die():
 	death_tween.tween_property(self, "global_position", Vector2(self.position.x, self.position.y + 200), 0.6).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 	await get_tree().create_timer(1).timeout
 	respawn()
-	
+
 func respawn():
 	respawn_timer.start()
 	anim.scale = Vector2(1, 1)
@@ -238,6 +261,9 @@ func _on_area_2d_area_entered(area):
 		current_plat = area.get_parent()
 	if(area.is_in_group("Checkpoint")):
 		set_checkpoint(area.global_position)
+	if(area.is_in_group("Finish")):
+		SceneTransition.change_scene("res://Scenes/Levels/Tutorial.tscn")
+		pass
 
 func _on_area_2d_area_exited(area):
 	if(area.is_in_group("Moving Platform")):

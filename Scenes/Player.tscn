@@ -94,12 +94,16 @@ region = Rect2(0, 0, 16, 20)
 size = Vector2(7.5, 5.5)
 
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
+z_index = 1
+y_sort_enabled = true
 collision_layer = 2
 collision_mask = 2
 script = ExtResource("1_prbjj")
 pspeed_enabled = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 1
+y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_gm1kr")
 animation = &"idle"
 
@@ -148,6 +152,10 @@ one_shot = true
 
 [node name="PSpeedTimer" type="Timer" parent="."]
 wait_time = 2.5
+one_shot = true
+
+[node name="DashCooldownTimer" type="Timer" parent="."]
+wait_time = 0.3
 one_shot = true
 
 [node name="Area2D" type="Area2D" parent="." groups=["Player"]]
