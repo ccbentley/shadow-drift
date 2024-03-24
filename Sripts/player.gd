@@ -262,8 +262,8 @@ func _on_area_2d_area_entered(area):
 	if(area.is_in_group("Checkpoint")):
 		set_checkpoint(area.global_position)
 	if(area.is_in_group("Finish")):
-		SceneTransition.change_scene("res://Scenes/Levels/Tutorial.tscn")
-		pass
+		can_move = false
+		area.get_parent().advance_level()
 
 func _on_area_2d_area_exited(area):
 	if(area.is_in_group("Moving Platform")):

@@ -1,0 +1,40 @@
+[gd_scene load_steps=4 format=3 uid="uid://b3y5opfkjyvoj"]
+
+[ext_resource type="PackedScene" uid="uid://bpyqr2dwikw5q" path="res://Scenes/Player.tscn" id="1_a2of3"]
+
+[sub_resource type="Gradient" id="Gradient_bwy6x"]
+offsets = PackedFloat32Array(0.00662252, 0.980132, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ihkor"]
+gradient = SubResource("Gradient_bwy6x")
+width = 2
+height = 2
+fill_from = Vector2(0, 1)
+fill_to = Vector2(0, 1)
+
+[node name="Level2" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_a2of3")]
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Player"]
+remote_path = NodePath("../../CPUParticles2D")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(3.5, 3.5)
+position_smoothing_enabled = true
+position_smoothing_speed = 4.0
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+z_index = -7
+amount = 400
+lifetime = 20.0
+randomness = 0.25
+lifetime_randomness = 0.1
+texture = SubResource("GradientTexture2D_ihkor")
+emission_shape = 3
+emission_rect_extents = Vector2(500, 500)
+gravity = Vector2(20, 5)
+scale_amount_min = 0.5
+scale_amount_max = 2.0
+color = Color(0, 0, 0, 1)

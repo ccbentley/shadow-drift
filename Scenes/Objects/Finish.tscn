@@ -1,9 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://bhatxv5et3iy7"]
+[gd_scene load_steps=6 format=3 uid="uid://bhatxv5et3iy7"]
 
 [ext_resource type="Texture2D" uid="uid://di8dcyworom7m" path="res://Art/BlueFlag.png" id="1_6ufqt"]
+[ext_resource type="Script" path="res://Sripts/finish.gd" id="1_ro6o7"]
+[ext_resource type="FontFile" uid="uid://dlf5mvhy56234" path="res://Art/Fonts/Born2bSportyV2.ttf" id="3_426ht"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_t7l70"]
-radius = 50.0
+radius = 25.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ows0k"]
 size = Vector2(5, 11)
@@ -13,6 +15,7 @@ z_index = 1
 y_sort_enabled = true
 collision_layer = 2
 collision_mask = 2
+script = ExtResource("1_ro6o7")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = 2
@@ -29,3 +32,26 @@ shape = SubResource("CircleShape2D_t7l70")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["Finish"]]
 position = Vector2(-1.25, 1.5)
 shape = SubResource("RectangleShape2D_ows0k")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 0
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -47.0
+offset_top = -11.5
+offset_right = 47.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_426ht")
+theme_override_font_sizes/font_size = 75
+horizontal_alignment = 1
+vertical_alignment = 1
