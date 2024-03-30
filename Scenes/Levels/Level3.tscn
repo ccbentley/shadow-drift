@@ -1,0 +1,71 @@
+[gd_scene load_steps=8 format=3 uid="uid://bwc6diy2w7r6y"]
+
+[ext_resource type="PackedScene" uid="uid://bpyqr2dwikw5q" path="res://Scenes/Player.tscn" id="1_c6il1"]
+[ext_resource type="Texture2D" uid="uid://bvy6p5gwbjn22" path="res://Art/Platforms/Platform_1.png" id="2_spuie"]
+[ext_resource type="PackedScene" uid="uid://ln7wghyk268j" path="res://Scenes/Objects/Checkpoint.tscn" id="3_jmv24"]
+
+[sub_resource type="Gradient" id="Gradient_bwy6x"]
+offsets = PackedFloat32Array(0.00662252, 0.980132, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_rtpiv"]
+gradient = SubResource("Gradient_bwy6x")
+width = 2
+height = 2
+fill_from = Vector2(0, 1)
+fill_to = Vector2(0, 1)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fuhyc"]
+texture = ExtResource("2_spuie")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-3.46478, -13.2292, -16, -6.5, -16.25, 1.625, -3.5, 8.125, 3.875, 8.125, 16, 1.75, 16, -6.375, 3.875, -13.125)
+0:1/0 = 0
+0:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:1/0/physics_layer_0/angular_velocity = 0.0
+
+[sub_resource type="TileSet" id="TileSet_ntiqv"]
+tile_shape = 1
+tile_layout = 5
+tile_offset_axis = 1
+tile_size = Vector2i(32, 16)
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_fuhyc")
+
+[node name="Level3" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_c6il1")]
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Player"]
+remote_path = NodePath("../../CPUParticles2D")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2.5, 2.5)
+position_smoothing_enabled = true
+position_smoothing_speed = 4.0
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+z_index = -7
+amount = 400
+lifetime = 20.0
+randomness = 0.25
+lifetime_randomness = 0.1
+texture = SubResource("GradientTexture2D_rtpiv")
+emission_shape = 3
+emission_rect_extents = Vector2(500, 500)
+gravity = Vector2(20, 5)
+scale_amount_min = 0.5
+scale_amount_max = 2.0
+color = Color(0, 0, 0, 1)
+
+[node name="TileMap" type="TileMap" parent="."]
+y_sort_enabled = true
+tile_set = SubResource("TileSet_ntiqv")
+format = 2
+layer_0/y_sort_enabled = true
+layer_0/tile_data = PackedInt32Array(65535, 0, 0, 65534, 0, 0, 65533, 0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 65538, 0, 0, 131074, 0, 0, 65537, 0, 0, 131073, 0, 0, 65536, 0, 0, 196607, 0, 0, 131072, 0, 0, 131071, 0, 0, 131070, 0, 0, 196606, 0, 0, 131069, 0, 0, 196605, 0, 0, 262141, 0, 0, 262142, 0, 0, 262143, 0, 0, 196608, 0, 0, 196609, 0, 0, 196610, 0, 0, -65539, 0, 0, -3, 0, 0, -65538, 0, 0, -2, 0, 0, -65537, 0, 0, -1, 0, 0, -131072, 0, 0, -65536, 0, 0, -131071, 0, 0, -65535, 0, 0, -131070, 0, 0, -65534, 0, 0, -524289, 0, 0, -1376260, 0, 0, -1310724, 0, 0, -1245188, 0, 0, -1179652, 0, 0, -1114116, 0, 0, -1048580, 0, 0, -1376259, 0, 0, -1310723, 0, 0, -1245187, 0, 0, -1179651, 0, 0, -1114115, 0, 0, -1048579, 0, 0, -1376258, 0, 0, -1310722, 0, 0, -1245186, 0, 0, -1179650, 0, 0, -1114114, 0, 0, -1048578, 0, 0, -1376257, 0, 0, -1310721, 0, 0, -1245185, 0, 0, -1179649, 0, 0, -1114113, 0, 0, -1048577, 0, 0, -1441792, 0, 0, -1376256, 0, 0, -1310720, 0, 0, -1245184, 0, 0, -1179648, 0, 0, -1114112, 0, 0, -1441791, 0, 0, -1376255, 0, 0, -1310719, 0, 0, -1245183, 0, 0, -1179647, 0, 0, -1114111, 0, 0)
+
+[node name="Checkpoint" parent="." instance=ExtResource("3_jmv24")]
+position = Vector2(302, -164)

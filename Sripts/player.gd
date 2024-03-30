@@ -16,6 +16,7 @@ var is_facing_right : bool = true
 var can_move : bool = true
 var follow_cam_enabled : bool = true
 var is_jumping : bool = false
+var is_dashing : bool = false
 var is_alive : bool = true
 var player_off_map : bool = false
 var coyote_time_active : bool = false
@@ -43,6 +44,7 @@ var dash_tween : Tween
 var current_plat = null
 
 @onready var footsteps = $Footsteps
+@onready var woosh = $Woosh
 @onready var land = $Land
 @onready var land_sound_timer = $Land/LandSoundTimer
 
@@ -108,14 +110,17 @@ func _physics_process(delta):
 
 func dash(dash_strength : float, dash_speed : float):
 	dashes_remaining -= 1
+	is_dashing = true
 	is_jumping = true
 	dash_cooldown_timer.start()
 	trail_effect.emitting = true
+	woosh.play()
 	dash_tween = get_tree().create_tween()
 	dash_tween.tween_property(self, "position", position + Vector2(dash_strength * input.x, dash_strength * input.y), dash_speed).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	dash_tween.connect("finished", on_dash_tween_finished)
 
 func on_dash_tween_finished():
+	is_dashing = false
 	is_jumping = false
 	trail_effect.emitting = false
 
@@ -255,6 +260,7 @@ func _on_fall_detection_player_on_tilemap():
 func move_with_platform():
 	if(current_plat != null):
 		global_position = global_position + current_plat.movement
+
 
 func _on_area_2d_area_entered(area):
 	if(area.is_in_group("Moving Platform")):

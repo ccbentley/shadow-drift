@@ -1,8 +1,9 @@
-[gd_scene load_steps=21 format=3 uid="uid://bpyqr2dwikw5q"]
+[gd_scene load_steps=22 format=3 uid="uid://bpyqr2dwikw5q"]
 
 [ext_resource type="Script" path="res://Sripts/player.gd" id="1_prbjj"]
 [ext_resource type="Texture2D" uid="uid://bbyp6y7545kyc" path="res://Art/Player/player_idle.png" id="2_lsmsn"]
 [ext_resource type="Texture2D" uid="uid://ci18plhvxtrv4" path="res://Art/Player/player_walk_cycle.png" id="3_b2r3h"]
+[ext_resource type="AudioStream" uid="uid://k3kqvsj1yc4f" path="res://Sounds/quickwoosh.wav" id="8_jq6y0"]
 [ext_resource type="Texture2D" uid="uid://b4sy3yac5wm7x" path="res://Art/Player/Shadow.png" id="8_lnxx2"]
 [ext_resource type="Script" path="res://Sripts/player_fall.gd" id="9_5eboo"]
 [ext_resource type="AudioStream" uid="uid://cweal1iqrluop" path="res://Sounds/Footsteps125.wav" id="10_m44ro"]
@@ -166,13 +167,19 @@ shape = SubResource("RectangleShape2D_1d4dg")
 
 [node name="Footsteps" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("10_m44ro")
+volume_db = 1.0
 
 [node name="Land" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("11_brq8o")
+volume_db = 1.0
 
 [node name="LandSoundTimer" type="Timer" parent="Land"]
 wait_time = 0.1
 one_shot = true
+
+[node name="Woosh" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_jq6y0")
+volume_db = 1.5
 
 [connection signal="player_off_tilemap" from="FallDetection" to="." method="_on_fall_detection_player_off_tilemap"]
 [connection signal="player_on_tilemap" from="FallDetection" to="." method="_on_fall_detection_player_on_tilemap"]

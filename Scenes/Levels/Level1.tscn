@@ -77,12 +77,13 @@ position = Vector2(1328, -382)
 pos1 = Vector2(1200, -446)
 pos2 = Vector2(1328, -382)
 time = 2.0
+ease_enabled = true
 
 [node name="MovingPlatform2" parent="MovingPlatforms" instance=ExtResource("4_uixkt")]
 position = Vector2(1632, -646)
 pos1 = Vector2(1376, -774)
 pos2 = Vector2(1632, -646)
-time = 5.0
+time = 3.0
 
 [node name="FallingPlatforms" type="Node2D" parent="."]
 
@@ -112,4 +113,4 @@ position = Vector2(1389, -659)
 [node name="Finish" parent="Checkpoints" instance=ExtResource("7_bl8d5")]
 position = Vector2(1662, -796)
 next_level = "res://Scenes/Levels/Level2.tscn"
-finish_text = "Level 1 Complete!"
+finish_text = "Level Complete!"
