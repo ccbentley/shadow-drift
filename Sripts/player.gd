@@ -22,6 +22,7 @@ var player_off_map : bool = false
 var coyote_time_active : bool = false
 var is_on_moving_platform : bool = false
 var pspeed_active : bool = false
+var player_dead : bool = false
 
 @export var pspeed_enabled : bool = false
 @export var slow_fall_enabled : bool = false
@@ -49,7 +50,9 @@ var current_plat = null
 @onready var land_sound_timer = $Land/LandSoundTimer
 
 func _ready():
-	respawn()
+	#removed for testing purpose, make sure to add repsawn function back later
+	#respawn()
+	pass
 
 func _process(_delta):
 	#Camera Follow Animated Sprite
@@ -151,7 +154,7 @@ func pspeed():
 		pspeed_active = true
 		trail_effect.emitting = true
 		max_speed = max_speed * pspeed_multiplyer
-	if(pspeed_active and input == Vector2.ZERO):
+	if(pspeed_active and input == Vector2.ZERO or pspeed_active and player_dead):
 		pspeed_active = false
 		trail_effect.emitting = false
 		max_speed = 100
@@ -225,13 +228,14 @@ func enable_movement():
 func player_die():
 	#Move player down and respawn
 	disable_movement()
+	player_dead = true
 	follow_cam_enabled = false
 	shadow.visible = false
-	pspeed_active = false
 	death_tween = get_tree().create_tween()
 	z_index = -6
 	death_tween.tween_property(self, "global_position", Vector2(self.position.x, self.position.y + 200), 0.6).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 	await get_tree().create_timer(1).timeout
+	player_dead = false
 	respawn()
 
 func respawn():

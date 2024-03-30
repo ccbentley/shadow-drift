@@ -36,7 +36,7 @@ func break_platform():
 	color_tween.tween_property(sprite, "modulate", Color(1, 1, 1 , 0), 0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 	await get_tree(). create_timer(2).timeout
 	respawn_platform()
-	
+
 func respawn_platform():
 	sprite.position = Vector2(0,0)
 	color_tween = get_tree().create_tween()
