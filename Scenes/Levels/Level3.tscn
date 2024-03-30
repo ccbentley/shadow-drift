@@ -22,9 +22,6 @@ texture_region_size = Vector2i(32, 32)
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/0/physics_layer_0/angular_velocity = 0.0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-3.46478, -13.2292, -16, -6.5, -16.25, 1.625, -3.5, 8.125, 3.875, 8.125, 16, 1.75, 16, -6.375, 3.875, -13.125)
-0:1/0 = 0
-0:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
-0:1/0/physics_layer_0/angular_velocity = 0.0
 
 [sub_resource type="TileSet" id="TileSet_ntiqv"]
 tile_shape = 1

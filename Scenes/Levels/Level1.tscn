@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dub05ilnwjdwr" path="res://Scenes/Platforms/MovingPlatform.tscn" id="4_uixkt"]
 [ext_resource type="PackedScene" uid="uid://bn8n556yy8jee" path="res://Scenes/Platforms/DisappearingPlatform.tscn" id="5_3d1mr"]
 [ext_resource type="PackedScene" uid="uid://ln7wghyk268j" path="res://Scenes/Objects/Checkpoint.tscn" id="6_clrur"]
-[ext_resource type="PackedScene" uid="uid://bhatxv5et3iy7" path="res://Scenes/Objects/Finish.tscn" id="7_bl8d5"]
+[ext_resource type="PackedScene" uid="uid://bkagwbubfbcm5" path="res://Scenes/Feather.tscn" id="6_lrv55"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_caw2h"]
 texture = ExtResource("2_vhoog")
@@ -110,7 +110,5 @@ position = Vector2(1456, -309)
 [node name="Checkpoint3" parent="Checkpoints" instance=ExtResource("6_clrur")]
 position = Vector2(1389, -659)
 
-[node name="Finish" parent="Checkpoints" instance=ExtResource("7_bl8d5")]
-position = Vector2(1662, -796)
-next_level = "res://Scenes/Levels/Level2.tscn"
-finish_text = "Level Complete!"
+[node name="Feather" parent="." instance=ExtResource("6_lrv55")]
+position = Vector2(1643, -797)
