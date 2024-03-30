@@ -222,6 +222,7 @@ func player_die():
 	disable_movement()
 	follow_cam_enabled = false
 	shadow.visible = false
+	pspeed_active = false
 	death_tween = get_tree().create_tween()
 	z_index = -6
 	death_tween.tween_property(self, "global_position", Vector2(self.position.x, self.position.y + 200), 0.6).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
@@ -260,7 +261,9 @@ func _on_area_2d_area_entered(area):
 		is_on_moving_platform = true
 		current_plat = area.get_parent()
 	if(area.is_in_group("Checkpoint")):
-		set_checkpoint(area.global_position)
+		if(current_checkpoint != area.global_position):
+			set_checkpoint(area.global_position)
+			area.get_parent().explode_effect()
 	if(area.is_in_group("Finish")):
 		can_move = false
 		area.get_parent().advance_level()

@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://ln7wghyk268j"]
+[gd_scene load_steps=6 format=3 uid="uid://ln7wghyk268j"]
 
 [ext_resource type="Texture2D" uid="uid://cticpnh5wt1d4" path="res://Art/Flag.png" id="1_0kjjb"]
+[ext_resource type="Script" path="res://Sripts/checkpoint.gd" id="1_wnbtq"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_t7l70"]
 radius = 50.0
@@ -8,11 +9,22 @@ radius = 50.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ows0k"]
 size = Vector2(5, 11)
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_smt83"]
+lifetime_randomness = 0.5
+particle_flag_disable_z = true
+spread = 180.0
+initial_velocity_min = 50.0
+initial_velocity_max = 50.0
+gravity = Vector3(0, 0, 0)
+scale_min = 3.0
+scale_max = 5.0
+
 [node name="Checkpoint" type="StaticBody2D" groups=["Checkpoint"]]
 z_index = 1
 y_sort_enabled = true
 collision_layer = 2
 collision_mask = 2
+script = ExtResource("1_wnbtq")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = 1
@@ -29,3 +41,13 @@ shape = SubResource("CircleShape2D_t7l70")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-1.25, 1.5)
 shape = SubResource("RectangleShape2D_ows0k")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+z_index = 1
+position = Vector2(0, -20)
+emitting = false
+amount = 25
+process_material = SubResource("ParticleProcessMaterial_smt83")
+lifetime = 0.7
+one_shot = true
+explosiveness = 1.0
