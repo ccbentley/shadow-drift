@@ -26,7 +26,7 @@ func _physics_process(_delta):
 func break_platform():
 	is_in_break_state = true
 	pos_tween = get_tree().create_tween()
-	pos_tween.tween_property(sprite, "position", Vector2(0,2), 0.1).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+	pos_tween.tween_property(sprite, "position", Vector2(0,5), 0.1).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 	pos_tween.tween_property(sprite, "position", Vector2(0,0), 0.1).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 	await get_tree(). create_timer(1).timeout
 	col.disabled = true

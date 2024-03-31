@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bf7gtpbug14ml"]
+[gd_scene load_steps=12 format=3 uid="uid://bf7gtpbug14ml"]
 
 [ext_resource type="PackedScene" uid="uid://bpyqr2dwikw5q" path="res://Scenes/Player.tscn" id="1_tbwb2"]
 [ext_resource type="Texture2D" uid="uid://bvy6p5gwbjn22" path="res://Art/Platforms/Platform_1.png" id="2_vhoog"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bn8n556yy8jee" path="res://Scenes/Platforms/DisappearingPlatform.tscn" id="5_3d1mr"]
 [ext_resource type="PackedScene" uid="uid://ln7wghyk268j" path="res://Scenes/Objects/Checkpoint.tscn" id="6_clrur"]
 [ext_resource type="PackedScene" uid="uid://bkagwbubfbcm5" path="res://Scenes/Objects/Feather.tscn" id="6_lrv55"]
+[ext_resource type="PackedScene" uid="uid://bcn25gdwnf13" path="res://Scenes/Orb.tscn" id="7_ra4gm"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_caw2h"]
 texture = ExtResource("2_vhoog")
@@ -120,7 +121,7 @@ time = 1.75
 position = Vector2(2560, -2342)
 pos1 = Vector2(2880, -2358)
 pos2 = Vector2(2592, -2358)
-time = 2.0
+time = 2.7
 ease_enabled = true
 
 [node name="FallingPlatforms" type="Node2D" parent="."]
@@ -177,3 +178,6 @@ position = Vector2(3217, -1732)
 
 [node name="Feather" parent="." instance=ExtResource("6_lrv55")]
 position = Vector2(1645, -794)
+
+[node name="Orb" parent="." instance=ExtResource("7_ra4gm")]
+position = Vector2(3057, -2284)
