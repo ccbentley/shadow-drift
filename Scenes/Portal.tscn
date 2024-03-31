@@ -36,8 +36,8 @@ gravity = Vector3(0, 0, 0)
 scale_min = 3.0
 scale_max = 5.0
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_p0j7g"]
-size = Vector2(123, 143)
+[sub_resource type="CircleShape2D" id="CircleShape2D_wxlom"]
+radius = 90.0
 
 [node name="Portal" type="StaticBody2D"]
 script = ExtResource("1_fmvyv")
@@ -50,7 +50,7 @@ animation = &"lit"
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
 modulate = Color(0.788235, 1, 1, 0.611765)
-z_index = 1
+z_index = 2
 position = Vector2(-1, -2)
 amount = 7
 process_material = SubResource("ParticleProcessMaterial_spcby")
@@ -59,8 +59,8 @@ lifetime = 0.4
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(0.5, 9.5)
-shape = SubResource("RectangleShape2D_p0j7g")
+position = Vector2(2, 9.5)
+shape = SubResource("CircleShape2D_wxlom")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 polygon = PackedVector2Array(61, -9, 61, 61, 48, 65, -58, 11, -58, -62, -46, -65)

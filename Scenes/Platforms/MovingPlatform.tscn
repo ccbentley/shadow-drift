@@ -9,10 +9,10 @@ script = ExtResource("1_vguth")
 [node name="Sprite2D" type="Sprite2D" parent="." groups=["Moving Platform"]]
 texture = ExtResource("2_xgp0s")
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." groups=["Moving Platform"]]
-polygon = PackedVector2Array(4, -40, -3, -40, -64, -9, -64, 0, -4, 30, 4, 30, 64, -1, 64, -10)
-
 [node name="Area2D" type="Area2D" parent="." groups=["Moving Platform"]]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D" groups=["Moving Platform"]]
 polygon = PackedVector2Array(3, -40, -4, -40, -64, -10, -64, 0, -3, 30, 4, 30, 64, -1, 64, -10)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." groups=["Moving Platform"]]
+polygon = PackedVector2Array(4, -40, -3, -40, -64, -9, -64, 0, -4, 30, 4, 30, 64, -1, 64, -10)

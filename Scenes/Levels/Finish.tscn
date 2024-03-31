@@ -1,0 +1,81 @@
+[gd_scene load_steps=7 format=3 uid="uid://duyabjgm0fk4n"]
+
+[ext_resource type="PackedScene" uid="uid://bpyqr2dwikw5q" path="res://Scenes/Player.tscn" id="1_wutge"]
+[ext_resource type="TileSet" uid="uid://e3xhshv2kpxx" path="res://Tilesets/Isometric Platform.tres" id="2_3baiv"]
+[ext_resource type="PackedScene" uid="uid://bn8n556yy8jee" path="res://Scenes/Platforms/DisappearingPlatform.tscn" id="3_q0li0"]
+[ext_resource type="PackedScene" uid="uid://b4y7lycnbkaie" path="res://Scenes/Objects/Sign.tscn" id="4_sxd5m"]
+
+[sub_resource type="Gradient" id="Gradient_sll5x"]
+offsets = PackedFloat32Array(0.00662252, 0.980132, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_sn81y"]
+gradient = SubResource("Gradient_sll5x")
+width = 2
+height = 2
+fill_from = Vector2(0, 1)
+fill_to = Vector2(0, 1)
+
+[node name="Finish" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_wutge")]
+position = Vector2(-1, -2)
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Player"]
+remote_path = NodePath("../../CPUParticles2D")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2.5, 2.5)
+position_smoothing_enabled = true
+position_smoothing_speed = 4.0
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+z_index = -7
+position = Vector2(-1, -2)
+amount = 400
+lifetime = 20.0
+randomness = 0.25
+lifetime_randomness = 0.1
+texture = SubResource("GradientTexture2D_sn81y")
+emission_shape = 3
+emission_rect_extents = Vector2(500, 500)
+gravity = Vector2(20, 5)
+scale_amount_min = 0.5
+scale_amount_max = 2.0
+color = Color(0, 0, 0, 1)
+
+[node name="TileMap" type="TileMap" parent="."]
+y_sort_enabled = true
+tile_set = ExtResource("2_3baiv")
+format = 2
+layer_0/y_sort_enabled = true
+layer_0/tile_data = PackedInt32Array(65534, 1, 0, 65535, 1, 0, 0, 1, 0, 1, 1, 0, 65533, 1, 0, 2, 1, 0, 131069, 1, 0, 196605, 1, 0, 131070, 1, 0, 196606, 1, 0, 131071, 1, 0, 196607, 1, 0, 65536, 1, 0, 131072, 1, 0, 65537, 1, 0, 131073, 1, 0, 65538, 1, 0, 131074, 1, 0, -131070, 1, 0, -65534, 1, 0, -131071, 1, 0, -65535, 1, 0, -131072, 1, 0, -65536, 1, 0, -65537, 1, 0, -1, 1, 0, -65538, 1, 0, -2, 1, 0, -65539, 1, 0, -3, 1, 0, 262141, 1, 0, 262142, 1, 0, 262143, 1, 0, 196608, 1, 0, 196609, 1, 0, 196610, 1, 0, 327678, 1, 0, 327679, 1, 0, 262144, 1, 0, 262145, 1, 0, -65533, 1, 0, 3, 1, 0, 65539, 1, 0, 131075, 1, 0, -131074, 1, 0, -131073, 1, 0, -196608, 1, 0, -196607, 1, 0, -4, 1, 0, 65532, 1, 0, 131068, 1, 0, 196604, 1, 0)
+
+[node name="FallingPlatforms" type="Node2D" parent="."]
+
+[node name="DisappearingPlatform" parent="FallingPlatforms" instance=ExtResource("3_q0li0")]
+position = Vector2(-144, -62)
+
+[node name="DisappearingPlatform2" parent="FallingPlatforms" instance=ExtResource("3_q0li0")]
+position = Vector2(0, -134)
+
+[node name="DisappearingPlatform3" parent="FallingPlatforms" instance=ExtResource("3_q0li0")]
+position = Vector2(-288, 10)
+
+[node name="DisappearingPlatform4" parent="FallingPlatforms" instance=ExtResource("3_q0li0")]
+position = Vector2(-144, 82)
+
+[node name="DisappearingPlatform5" parent="FallingPlatforms" instance=ExtResource("3_q0li0")]
+position = Vector2(0, 154)
+
+[node name="DisappearingPlatform6" parent="FallingPlatforms" instance=ExtResource("3_q0li0")]
+position = Vector2(144, 82)
+
+[node name="DisappearingPlatform7" parent="FallingPlatforms" instance=ExtResource("3_q0li0")]
+position = Vector2(288, 10)
+
+[node name="DisappearingPlatform8" parent="FallingPlatforms" instance=ExtResource("3_q0li0")]
+position = Vector2(144, -62)
+
+[node name="Sign" parent="." instance=ExtResource("4_sxd5m")]
+text = "Thank You For Playing!"

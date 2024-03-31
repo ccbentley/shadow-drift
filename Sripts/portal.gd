@@ -19,8 +19,7 @@ func _process(_delta):
 		anim.play("lit")
 		particles.emitting = true
 
-
 func _on_area_2d_area_entered(area:Area2D):
 	if(area.is_in_group("Player")):
 		if(portal_active):
-			pass
+			SceneTransition.change_scene("res://Scenes/Levels/Finish.tscn")
