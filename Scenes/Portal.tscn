@@ -1,0 +1,68 @@
+[gd_scene load_steps=7 format=3 uid="uid://csa6emcyjxqpq"]
+
+[ext_resource type="Texture2D" uid="uid://3tyi4ynrvn12" path="res://Art/LitPortal.png" id="1_2fr0r"]
+[ext_resource type="Script" path="res://Sripts/portal.gd" id="1_fmvyv"]
+[ext_resource type="Texture2D" uid="uid://dqhnlfcfnkotm" path="res://Art/UnlitPoral.png" id="2_qpxxa"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_he4pg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_2fr0r")
+}],
+"loop": true,
+"name": &"lit",
+"speed": 0.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_qpxxa")
+}],
+"loop": true,
+"name": &"unlit",
+"speed": 0.0
+}]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_spcby"]
+lifetime_randomness = 0.5
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(40, 20, 1)
+direction = Vector3(-1, 0, 0)
+spread = 50.0
+initial_velocity_min = 50.0
+initial_velocity_max = 50.0
+gravity = Vector3(0, 0, 0)
+scale_min = 3.0
+scale_max = 5.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p0j7g"]
+size = Vector2(123, 143)
+
+[node name="Portal" type="StaticBody2D"]
+script = ExtResource("1_fmvyv")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 2
+scale = Vector2(2.5, 2.5)
+sprite_frames = SubResource("SpriteFrames_he4pg")
+animation = &"lit"
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+modulate = Color(0.788235, 1, 1, 0.611765)
+z_index = 1
+position = Vector2(-1, -2)
+amount = 7
+process_material = SubResource("ParticleProcessMaterial_spcby")
+lifetime = 0.4
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0.5, 9.5)
+shape = SubResource("RectangleShape2D_p0j7g")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(61, -9, 61, 61, 48, 65, -58, 11, -58, -62, -46, -65)
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
