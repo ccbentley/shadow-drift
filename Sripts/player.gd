@@ -51,7 +51,6 @@ var current_plat = null
 
 func _ready():
 	respawn()
-	pass
 
 func _process(_delta):
 	#Camera Follow Animated Sprite
