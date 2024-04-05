@@ -22,7 +22,6 @@ var player_off_map : bool = false
 var coyote_time_active : bool = false
 var is_on_moving_platform : bool = false
 var pspeed_active : bool = false
-var is_on_jump_pad : bool = false
 
 @export var pspeed_enabled : bool = false
 @export var slow_fall_enabled : bool = false
@@ -273,17 +272,11 @@ func _on_area_2d_area_entered(area):
 	if(area.is_in_group("Finish")):
 		can_move = false
 		area.get_parent().advance_level()
-	if(area.is_in_group("JumpPad")):
-		is_on_jump_pad = true
-		dashes_remaining = number_of_dashes
-		jump(anim.position + 25, 0.15, 0.3)
 
 func _on_area_2d_area_exited(area):
 	if(area.is_in_group("Moving Platform")):
 		is_on_moving_platform = false
 		current_plat = null
-	if(area.is_in_group("JumpPad")):
-		is_on_jump_pad = false
 
 func set_checkpoint(checkpoint : Vector2):
 	current_checkpoint = checkpoint
