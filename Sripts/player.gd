@@ -22,7 +22,6 @@ var player_off_map : bool = false
 var coyote_time_active : bool = false
 var is_on_moving_platform : bool = false
 var pspeed_active : bool = false
-var player_dead : bool = false
 var is_on_jump_pad : bool = false
 
 @export var pspeed_enabled : bool = false
@@ -89,7 +88,6 @@ func _physics_process(delta):
 			stop_jump(0.15)
 
 	if(player_off_map && is_alive && !is_jumping && coyote_timer.time_left <= 0 && respawn_timer.time_left <= 0):
-		is_alive = false
 		player_die()
 
 	if(is_on_moving_platform):
@@ -154,7 +152,7 @@ func pspeed():
 		pspeed_active = true
 		trail_effect.emitting = true
 		max_speed = max_speed * pspeed_multiplyer
-	if(pspeed_active and input == Vector2.ZERO or pspeed_active and player_dead):
+	if(pspeed_active and input == Vector2.ZERO or pspeed_active and !is_alive):
 		pspeed_active = false
 		trail_effect.emitting = false
 		max_speed = 100
@@ -227,15 +225,14 @@ func enable_movement():
 
 func player_die():
 	#Move player down and respawn
+	is_alive = false
 	disable_movement()
-	player_dead = true
 	follow_cam_enabled = false
 	shadow.visible = false
 	death_tween = get_tree().create_tween()
 	z_index = -6
 	death_tween.tween_property(self, "global_position", Vector2(self.position.x, self.position.y + 200), 0.6).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 	await get_tree().create_timer(1).timeout
-	player_dead = false
 	respawn()
 
 func respawn():
