@@ -201,7 +201,7 @@ func jump(jump_height, jump_speed, fall_speed):
 	squash_tween.tween_property(anim, "scale", Vector2(1, 1), 0.1).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 
 func stop_jump(fall_speed):
-	await get_tree(). create_timer(0.04).timeout
+	await get_tree().create_timer(0.04).timeout
 	jump_tween.kill()
 	jump_tween = get_tree().create_tween()
 	#Move player down
