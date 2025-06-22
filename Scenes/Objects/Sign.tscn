@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://b4y7lycnbkaie"]
 
-[ext_resource type="Script" path="res://Sripts/area_text.gd" id="1_6ks41"]
+[ext_resource type="Script" path="res://Scripts/area_text.gd" id="1_6ks41"]
 [ext_resource type="FontFile" uid="uid://dlf5mvhy56234" path="res://Art/Fonts/Born2bSportyV2.ttf" id="2_ty4lv"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_88b40"]

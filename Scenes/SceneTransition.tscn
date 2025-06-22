@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://be5qi3jadu2r"]
 
-[ext_resource type="Script" path="res://Sripts/scene_transition.gd" id="1_aoa25"]
+[ext_resource type="Script" path="res://Scripts/scene_transition.gd" id="1_aoa25"]
 
 [sub_resource type="Animation" id="Animation_sf556"]
 resource_name = "slide"

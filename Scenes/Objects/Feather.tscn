@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://bkagwbubfbcm5"]
 
 [ext_resource type="Texture2D" uid="uid://c5idph6sagpt3" path="res://Art/Feather.png" id="1_b6xjk"]
-[ext_resource type="Script" path="res://Sripts/feather.gd" id="1_da188"]
+[ext_resource type="Script" path="res://Scripts/feather.gd" id="1_da188"]
 [ext_resource type="Texture2D" uid="uid://b4sy3yac5wm7x" path="res://Art/Player/Shadow.png" id="2_6c7lq"]
 [ext_resource type="FontFile" uid="uid://dlf5mvhy56234" path="res://Art/Fonts/Born2bSportyV2.ttf" id="4_xj87u"]
 

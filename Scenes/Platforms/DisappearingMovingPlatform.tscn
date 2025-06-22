@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bgv051c4vf8dh"]
 
-[ext_resource type="Script" path="res://Sripts/disappaering_moving_platform.gd" id="1_rwhvv"]
+[ext_resource type="Script" path="res://Scripts/disappaering_moving_platform.gd" id="1_rwhvv"]
 [ext_resource type="Texture2D" uid="uid://c7vy72738yoxw" path="res://Art/Platforms/Black_Platform_Large_x4.png" id="2_0d1ov"]
 
 [node name="DisappearingMovingPlatform" type="AnimatableBody2D" groups=["Moving Platform"]]

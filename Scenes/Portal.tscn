@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://csa6emcyjxqpq"]
 
 [ext_resource type="Texture2D" uid="uid://3tyi4ynrvn12" path="res://Art/LitPortal.png" id="1_2fr0r"]
-[ext_resource type="Script" path="res://Sripts/portal.gd" id="1_fmvyv"]
+[ext_resource type="Script" path="res://Scripts/portal.gd" id="1_fmvyv"]
 [ext_resource type="Texture2D" uid="uid://dqhnlfcfnkotm" path="res://Art/UnlitPoral.png" id="2_qpxxa"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_he4pg"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://bcn25gdwnf13"]
 
-[ext_resource type="Script" path="res://Sripts/orb.gd" id="1_2nf4u"]
+[ext_resource type="Script" path="res://Scripts/orb.gd" id="1_2nf4u"]
 [ext_resource type="Texture2D" uid="uid://cao3u6qq1rerp" path="res://Art/Orb.png" id="1_5apx3"]
 [ext_resource type="Texture2D" uid="uid://b4sy3yac5wm7x" path="res://Art/Player/Shadow.png" id="2_stv8m"]
 

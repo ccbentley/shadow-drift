@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Isometric Platformer"
+config/name="Shadow Drift"
 run/main_scene="res://Scenes/Levels/Level1.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 boot_splash/show_image=false
@@ -28,8 +28,8 @@ window/stretch/mode="canvas_items"
 folder_colors={
 "res://Art/": "teal",
 "res://Scenes/": "orange",
-"res://Sounds/": "blue",
-"res://Sripts/": "gray"
+"res://Scripts/": "gray",
+"res://Sounds/": "blue"
 }
 
 [filesystem]

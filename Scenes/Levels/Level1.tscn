@@ -32,6 +32,7 @@ remote_path = NodePath("../../CPUParticles2D")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2.5, 2.5)
+process_callback = 0
 position_smoothing_enabled = true
 position_smoothing_speed = 4.0
 
